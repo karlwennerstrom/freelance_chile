@@ -39,9 +39,7 @@ app.get('/api/boletas',(req,res)=>{
         }else{
             res.send(filas);
         }
-
     })
-
  })
 // process.on('uncaughtException', function(err) {
 //     console.log(err);
@@ -62,7 +60,6 @@ app.post('/api/boletas',(req,res)=>{
             res.send(results);
         }
     })
-
 });
 
 app.get('/api/boletas/:id',(req,res)=>{
