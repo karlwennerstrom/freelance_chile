@@ -14,15 +14,15 @@ var conexion= mysql.createConnection({
 
 
 //Testing Conection
-conexion.connect(function(error){
+// conexion.connect(function(error){
 
-    if(error){
-        throw error;
-    }
-    else{
-        console.log("Conexión exitosa");
-    }
-})
+//     if(error){
+//         throw error;
+//     }
+//     else{
+//         console.log("Conexión exitosa");
+//     }
+// })
 
 
 app.get('/',function(req,res){
