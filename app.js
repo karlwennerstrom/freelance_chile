@@ -43,7 +43,7 @@ app.get('/api/boletas',(req,res)=>{
 
     })
 
-// })
+ })
 // process.on('uncaughtException', function(err) {
 //     console.log(err);
 //   });
