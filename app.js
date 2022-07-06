@@ -5,24 +5,24 @@ const { signed } = require('xpress/lib/string');
 var app = express();
 app.use(express.json());
 
-// var conexion= mysql.createConnection({
-//     host:'localhost',
-//     user:'root',
-//     password:'',
-//     database:'gestion_boletas'
-// })
+var conexion= mysql.createConnection({
+    host:'us-cdbr-east-06.cleardb.net',
+    user:'b39bb4d3711279',
+    password:'e4124551',
+    database:'heroku_e127056c9502aab'
+})
 
 
 //Testing Conection
-// conexion.connect(function(error){
+conexion.connect(function(error){
 
-//     if(error){
-//         throw error;
-//     }
-//     else{
-//         console.log("Conexión exitosa");
-//     }
-// })
+    if(error){
+        throw error;
+    }
+    else{
+        console.log("Conexión exitosa");
+    }
+})
 
 
 app.get('/',function(req,res){
