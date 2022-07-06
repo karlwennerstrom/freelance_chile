@@ -18,10 +18,10 @@ app.use(express.json());
 //     }
 // })
 
-
+var conexion;
 function handleDisconnect() {
 
-    var conexion= mysql.createConnection({
+    conexion= mysql.createConnection({
         host:'us-cdbr-east-06.cleardb.net',
         user:'b39bb4d3711279',
         password:'e4124551',
@@ -35,7 +35,7 @@ function handleDisconnect() {
     }                                     // to avoid a hot loop, and to allow our node script to
   });                                     // process asynchronous requests in the meantime.
                                           // If you're also serving http, display a 503 error.
-  connection.on('error', function(err) {
+  conexion.on('error', function(err) {
     console.log('db error', err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
       handleDisconnect();                         // lost due to either server restart, or a
