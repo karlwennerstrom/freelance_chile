@@ -15,7 +15,6 @@ var conexion= mysql.createConnection({
 
 //Testing Conection
 conexion.connect(function(error){
-
     if(error){
         throw error;
     }
