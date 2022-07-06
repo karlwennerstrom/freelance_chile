@@ -31,17 +31,17 @@ app.get('/',function(req,res){
 
 // //obtener todas las boletas
 
-// app.get('/api/boletas',(req,res)=>{
+app.get('/api/boletas',(req,res)=>{
 
-//     conexion.query('SELECT * FROM boletas', (error,filas)=>{
+    conexion.query('SELECT * FROM boletas', (error,filas)=>{
 
-//         if(error){
-//             throw error;
-//         }else{
-//             res.send(filas);
-//         }
+        if(error){
+            throw error;
+        }else{
+            res.send(filas);
+        }
 
-//     })
+    })
 
 // })
 // process.on('uncaughtException', function(err) {
