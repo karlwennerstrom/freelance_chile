@@ -1,12 +1,18 @@
 const express= require('express')
 const mysql = require('mysql')
 const { signed } = require('xpress/lib/string')
+const cors = require('cors');
 
 const app = express()
 const bcrypt = require('bcrypt')
 
+
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
+app.use(cors())
+
+
+
 
 var conexion;
 //aveces el servidor se desconecta, por lo tanto hay que estar atento y renovar la conección cuando pase
@@ -56,6 +62,11 @@ app.get('/login',(req,res)=>{
 app.get('/register',(req,res)=>{
 
     res.render('register.ejs')
+
+})
+app.get('/boletas',(req,res)=>{
+
+    res.render('boletas.ejs')
 
 })
 
