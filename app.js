@@ -1,26 +1,19 @@
-var express= require('express');
-var mysql = require('mysql');
-const { signed } = require('xpress/lib/string');
+const express= require('express')
+const mysql = require('mysql')
+const { signed } = require('xpress/lib/string')
 
-var app = express();
+const app = express()
+const bcrypt = require('bcrypt')
+
+const initializePassport = require('./passport-config')
+initializePassport()
 app.use(express.json());
 
-
-
-
-//Testing Conection
-// conexion.connect(function(error){
-//     if(error){
-//         throw error;
-//     }
-//     else{
-//         console.log("Conexión exitosa");
-//     }
-// })
-
 var conexion;
+//aveces el servidor se desconecta, por lo tanto hay que estar atento y renovar la conección cuando pase
 function handleDisconnect() {
 
+    //nos conectamos a la base de datos creada en heroku
     conexion= mysql.createConnection({
         host:'us-cdbr-east-06.cleardb.net',
         user:'b39bb4d3711279',
@@ -47,9 +40,28 @@ function handleDisconnect() {
 
 handleDisconnect();
 
+app.set('view-engine','ejs')
+app.use(express.urlencoded({extended:false}))
+
 app.get('/',function(req,res){
+    res.render('index.ejs',{name:'Karl'})
     res.send('Ruta Inicio');
 })
+
+app.get('/login',(req,res)=>{
+
+    res.render('login.ejs')
+
+})
+
+app.get('/register',(req,res)=>{
+
+    res.render('register.ejs')
+
+})
+
+
+
 
 // //obtener todas las boletas
 
@@ -98,6 +110,58 @@ app.get('/api/boletas/:id',(req,res)=>{
     })
 
 })
+
+app.post('/api/boletas/user/registro',async (req,res)=>{
+
+    try{
+        const hasehdPass = await bcrypt.hash(req.body.password,10)
+        let data = {
+            nombre_usuario:req.body.nombre_usuario,
+            email:req.body.email,
+            password:hasehdPass
+        };
+        let sql="INSERT INTO usuarios SET ?";
+        conexion.query(sql,data,function(error,results){
+            if(error){
+                throw error;
+            }else{
+                res.send(results);
+            }
+        })
+
+    }catch{
+        throw error;
+    }
+
+})
+
+
+
+app.post('/api/boletas/login',(req,res)=>{
+    try{
+        const hasehdPass = await bcrypt.compare()
+        let data = {
+            nombre_usuario:req.body.nombre_usuario,
+            email:req.body.email,
+            password:hasehdPass
+        };
+        let sql="INSERT INTO usuarios SET ?";
+        conexion.query(sql,data,function(error,results){
+            if(error){
+                throw error;
+            }else{
+                res.send(results);
+            }
+        })
+
+    }catch{
+        throw error;
+    }
+
+})
+
+
+
 
 const puerto = 3000;
 app.listen(process.env.PORT || puerto,function(){
