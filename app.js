@@ -5,8 +5,6 @@ const { signed } = require('xpress/lib/string')
 const app = express()
 const bcrypt = require('bcrypt')
 
-const initializePassport = require('./passport-config')
-initializePassport()
 app.use(express.json());
 
 var conexion;
@@ -136,27 +134,27 @@ app.post('/api/boletas/user/registro',async (req,res)=>{
 })
 
 
-
+//login en construcción
 app.post('/api/boletas/login',(req,res)=>{
-    try{
-        const hasehdPass = await bcrypt.compare()
-        let data = {
-            nombre_usuario:req.body.nombre_usuario,
-            email:req.body.email,
-            password:hasehdPass
-        };
-        let sql="INSERT INTO usuarios SET ?";
-        conexion.query(sql,data,function(error,results){
-            if(error){
-                throw error;
-            }else{
-                res.send(results);
-            }
-        })
+    // try{
+    //     const hasehdPass = await bcrypt.compare()
+    //     let data = {
+    //         nombre_usuario:req.body.nombre_usuario,
+    //         email:req.body.email,
+    //         password:hasehdPass
+    //     };
+    //     let sql="INSERT INTO usuarios SET ?";
+    //     conexion.query(sql,data,function(error,results){
+    //         if(error){
+    //             throw error;
+    //         }else{
+    //             res.send(results);
+    //         }
+    //     })
 
-    }catch{
-        throw error;
-    }
+    // }catch{
+    //     throw error;
+    // }
 
 })
 
