@@ -6,6 +6,7 @@ const app = express()
 const bcrypt = require('bcrypt')
 
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 
 var conexion;
 //aveces el servidor se desconecta, por lo tanto hay que estar atento y renovar la conección cuando pase
