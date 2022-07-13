@@ -89,7 +89,40 @@ app.get('/api/boletas',(req,res)=>{
 // process.on('uncaughtException', function(err) {
 //     console.log(err);
 //   });
-// //crear boleta
+// //modificar boleta
+
+app.put('/api/boletas/:id',(req,res)=>{
+    
+    let id=req.params.id
+    let titulo=req.body.titulo
+    let descripcion=req.body.descripcion
+    let valor=req.body.valor
+    
+    let sql="UPDATE boletas SET titulo=?, descripcion=?,valor=? WHERE id=?";
+    conexion.query(sql,[titulo,descripcion,valor,id],function(error,results){
+        if(error){
+            throw error;
+        }else{
+            res.send(results);
+        }
+    })
+});
+//DELETE
+app.delete('/api/boletas/:id',(req,res)=>{
+    
+    let id=req.params.id
+    let sql="DELETE FROM boletas WHERE id=?";
+    conexion.query(sql,[id],function(error,results){
+        if(error){
+            throw error;
+        }else{
+            res.send(results);
+        }
+    })
+});
+
+
+
 
 app.post('/api/boletas',(req,res)=>{
     let data = {

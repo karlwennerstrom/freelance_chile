@@ -12,13 +12,14 @@
                     <v-icon>mdi-plus</v-icon>
                 </v-btn>
                 <v-simple-table class="mt-5">
-                    <template -slot:default>
+                    <template v-slot:default>
                         <thead>
                                 <tr class="purple darken-2">
                                     <th class="white--text">ID</th>
                                     <th class="white--text">TITULO</th>
                                     <th class="white--text">DESCRIPCION</th>
                                     <th class="white--text">VALOR</th>
+                                    <th class="white--text">ACCIÓNES</th>
                                 </tr>
 
                         </thead>
@@ -31,7 +32,7 @@
                                    <td>{{boleta.valor}}</td> 
                                    <td>
                                     <v-btn class="pink" dark small fab @click="formEditar(boleta.id,boleta.titulo,boleta.descripcion,boleta.valor)"><v-icon>mdi-pencil</v-icon></v-btn>
-                                    <v-btn class="pink" dark small fab @click="borrar(boleta.id)"><v-icon>mdi-delete</v-icon></v-btn>
+                                    <v-btn class="error" dark small fab @click="borrar(boleta.id)"><v-icon>mdi-delete</v-icon></v-btn>
                                    </td>
                                 </th>
                             </tr>
@@ -68,14 +69,13 @@
                                 </v-col>
                                 </v-row>
                             </v-container>
-                            <v-card-action>
+                        </v-card-text>
+                            <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn @click="dialog=false" class="blue-grey" dark>Cancelar</v-btn>
                                 <v-btn @click="guardar()"  type="submit" class="purple accent-3" dark>Guardar</v-btn>
-                            </v-card-action>
-                       
-
-                    </v-card-text>
+                            </v-card-actions>
+                    
                 </v-form>
                     
                 </v-card>

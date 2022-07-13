@@ -1,11 +1,12 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.4/vue.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.6.7/vuetify.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <script>
 
-let url='https://immense-brushlands-57583.herokuapp.com/api/boletas/';
+let url='http://localhost:3000/api/boletas/';
 new Vue({
     el:"#app",
     vuetify: new Vuetify(),
@@ -50,7 +51,6 @@ new Vue({
 
                 this.mostrar();
 
-
             })
             this.boleta.titulo='';
             this.boleta.descripcion='';
@@ -60,14 +60,14 @@ new Vue({
         editar(){
 
             let parametros = {
-                id:this.boleta.id,
                 titulo:this.boleta.titulo,
                 descripcion:this.boleta.descripcion,
                 valor:this.boleta.valor
             }
-            axios.put(url+this.boleta.id,paremtros)
+            axios.put(url+this.boleta.id,parametros).then(response=>{
 
-
+                this.mostrar()
+            })
         },
         borrar(id){
 
@@ -75,6 +75,7 @@ new Vue({
 
                 title:'Confirma que desea eliminar la boleta',
                 confirmButtonText:'Confirmar',
+                icon:'info',
                 showCancelButton:true
 
 
@@ -87,7 +88,7 @@ new Vue({
                         this.mostrar();
 
                     });
-                    Swal.fire('Eliminado','','Success')
+                    Swal.fire('Eliminado','','success')
                 }
                 else if(result.isDenied){
 
@@ -100,7 +101,7 @@ new Vue({
 
                 this.crear()
             }
-            if(this.operacion='editar'){
+            if(this.operacion=='editar'){
                 this.editar()
             }
             this.dialog=false;
@@ -115,9 +116,9 @@ new Vue({
         },
         formEditar(id,titulo,descripcion,valor){
             this.boleta.id=id;
-            this.titulo=titulo;
-            this.descripcion=descripcion;
-            this.valor=valor;
+            this.boleta.titulo=titulo;
+            this.boleta.descripcion=descripcion;
+            this.boleta.valor=valor;
             this.dialog=true;
             this.operacion='editar';
 
