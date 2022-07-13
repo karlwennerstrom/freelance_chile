@@ -1,11 +1,18 @@
 const express= require('express')
 const mysql = require('mysql')
 const { signed } = require('xpress/lib/string')
+const cors = require('cors');
 
 const app = express()
 const bcrypt = require('bcrypt')
 
+
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
+app.use(cors())
+
+
+
 
 var conexion;
 //aveces el servidor se desconecta, por lo tanto hay que estar atento y renovar la conección cuando pase
@@ -57,6 +64,11 @@ app.get('/register',(req,res)=>{
     res.render('register.ejs')
 
 })
+app.get('/boletas',(req,res)=>{
+
+    res.render('boletas.ejs')
+
+})
 
 
 
@@ -77,7 +89,40 @@ app.get('/api/boletas',(req,res)=>{
 // process.on('uncaughtException', function(err) {
 //     console.log(err);
 //   });
-// //crear boleta
+// //modificar boleta
+
+app.put('/api/boletas/:id',(req,res)=>{
+    
+    let id=req.params.id
+    let titulo=req.body.titulo
+    let descripcion=req.body.descripcion
+    let valor=req.body.valor
+    
+    let sql="UPDATE boletas SET titulo=?, descripcion=?,valor=? WHERE id=?";
+    conexion.query(sql,[titulo,descripcion,valor,id],function(error,results){
+        if(error){
+            throw error;
+        }else{
+            res.send(results);
+        }
+    })
+});
+//DELETE
+app.delete('/api/boletas/:id',(req,res)=>{
+    
+    let id=req.params.id
+    let sql="DELETE FROM boletas WHERE id=?";
+    conexion.query(sql,[id],function(error,results){
+        if(error){
+            throw error;
+        }else{
+            res.send(results);
+        }
+    })
+});
+
+
+
 
 app.post('/api/boletas',(req,res)=>{
     let data = {

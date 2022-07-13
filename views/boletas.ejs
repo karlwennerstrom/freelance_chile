@@ -1,0 +1,92 @@
+<%- include('header.ejs') %>
+
+<div id="app">
+
+    <v-app>
+
+        <v-main>
+
+            <v-card class="mx-auto mt-5" color="transparent"  max-width="1280" elevation="0" >
+
+                <v-btn class="mx-2" fab dark color ="#e040fb" @click="formNuevo()">
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+                <v-simple-table class="mt-5">
+                    <template v-slot:default>
+                        <thead>
+                                <tr class="purple darken-2">
+                                    <th class="white--text">ID</th>
+                                    <th class="white--text">TITULO</th>
+                                    <th class="white--text">DESCRIPCION</th>
+                                    <th class="white--text">VALOR</th>
+                                    <th class="white--text">ACCIÓNES</th>
+                                </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr v-for="boleta in boletas" :key="boleta.id">
+                                <th>
+                                   <td>{{boleta.id}}</td> 
+                                   <td>{{boleta.titulo}}</td> 
+                                   <td>{{boleta.descripcion}}</td> 
+                                   <td>{{boleta.valor}}</td> 
+                                   <td>
+                                    <v-btn class="pink" dark small fab @click="formEditar(boleta.id,boleta.titulo,boleta.descripcion,boleta.valor)"><v-icon>mdi-pencil</v-icon></v-btn>
+                                    <v-btn class="error" dark small fab @click="borrar(boleta.id)"><v-icon>mdi-delete</v-icon></v-btn>
+                                   </td>
+                                </th>
+                            </tr>
+
+
+                        </tbody>
+                    </template>
+
+                </v-simple-table>
+            </v-card>
+
+            <!-- Componente de dialogo para crear y editar -->
+
+            <v-dialog v-model="dialog" max-width="500">
+
+                <v-card>
+                    <v-card-title>Boletas</v-card-title>
+                    <v-card-text>
+                        <v-form>
+                            <v-container>
+                                <v-row>
+                                <input v-model="boleta.id" hidden type="text"></input>
+                                <v-col cols="12" md="4"> 
+                                    <v-text-field v-model="boleta.titulo" label="titulo" solo required>{{boleta.titulo}}</v-text-field>
+
+                                </v-col>
+                                <v-col cols="12" md="4"> 
+                                    <v-text-field v-model="boleta.descripcion" label="descripcion" solo required>{{boleta.descripcion}}</v-text-field>
+
+                                </v-col>
+                                <v-col cols="12" md="4"> 
+                                    <v-text-field v-model="boleta.valor" label="Valor"  prefix="$" type="number" solo required>{{boleta.valor}}</v-text-field>
+
+                                </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn @click="dialog=false" class="blue-grey" dark>Cancelar</v-btn>
+                                <v-btn @click="guardar()"  type="submit" class="purple accent-3" dark>Guardar</v-btn>
+                            </v-card-actions>
+                    
+                </v-form>
+                    
+                </v-card>
+            </v-dialog>
+        </v-main>
+
+    </v-app>
+
+</div>
+
+
+
+
+<%- include('footer.ejs') %>

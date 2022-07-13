@@ -1,0 +1,145 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+
+let url='https://immense-brushlands-57583.herokuapp.com/api/boletas/';
+new Vue({
+    el:"#app",
+    vuetify: new Vuetify(),
+    data(){
+
+        return{
+            boletas:[],
+            dialog:false,
+            operacion:'',
+            boleta:{
+                id:null,
+                titulo:'',
+                descripcion:'',
+                valor:''
+            }
+        } 
+    },
+    created(){
+
+        this.mostrar()
+    },
+    methods:{
+
+        mostrar(){
+
+            axios.get(url).then(response=>{
+
+                this.boletas=response.data;
+
+            })
+
+
+        },
+        crear(){
+            
+            let parametros = {
+                titulo:this.boleta.titulo,
+                descripcion:this.boleta.descripcion,
+                valor:this.boleta.valor
+            }
+            axios.post(url,parametros).then(response=>{
+
+                this.mostrar();
+
+            })
+            this.boleta.titulo='';
+            this.boleta.descripcion='';
+            this.boleta.valor='';
+
+        },
+        editar(){
+
+            let parametros = {
+                titulo:this.boleta.titulo,
+                descripcion:this.boleta.descripcion,
+                valor:this.boleta.valor
+            }
+            axios.put(url+this.boleta.id,parametros).then(response=>{
+
+                this.mostrar()
+            })
+        },
+        borrar(id){
+
+            Swal.fire({
+
+                title:'Confirma que desea eliminar la boleta',
+                confirmButtonText:'Confirmar',
+                icon:'info',
+                showCancelButton:true
+
+
+
+            }).then((result)=>{
+
+                if(result.isConfirmed){
+                    axios.delete(url+id).then(response=>{
+
+                        this.mostrar();
+
+                    });
+                    Swal.fire('Eliminado','','success')
+                }
+                else if(result.isDenied){
+
+                }
+
+            });
+        },guardar(){
+
+            if(this.operacion=='crear'){
+
+                this.crear()
+            }
+            if(this.operacion=='editar'){
+                this.editar()
+            }
+            this.dialog=false;
+        },
+        formNuevo(){
+
+            this.dialog=true;
+            this.operacion='crear';
+            this.operacion.titulo='';
+            this.operacion.descripcion='';
+            this.operacion.valor='';
+        },
+        formEditar(id,titulo,descripcion,valor){
+            this.boleta.id=id;
+            this.boleta.titulo=titulo;
+            this.boleta.descripcion=descripcion;
+            this.boleta.valor=valor;
+            this.dialog=true;
+            this.operacion='editar';
+
+        }
+
+
+    }
+});
+
+// var app = new Vue({
+// el: '#app',
+// vuetify: new Vuetify(),
+// data: {
+// greeting: 'Welcome to your Vue.js app!',
+// },
+// methods: {
+// }
+// })
+</script>
+
+
+
+</body>
+</html>
